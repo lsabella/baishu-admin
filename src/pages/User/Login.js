@@ -16,6 +16,7 @@ class LoginPage extends Component {
   state = {
     type: 'account',
     autoLogin: true,
+    rememberMe: false,
   };
 
   onTabChange = type => {
@@ -40,14 +41,15 @@ class LoginPage extends Component {
     });
 
   handleSubmit = (err, values) => {
-    const { type } = this.state;
+    const { type, rememberMe } = this.state;
     if (!err) {
       const { dispatch } = this.props;
       dispatch({
         type: 'login/login',
         payload: {
           ...values,
-          type,
+          // type,
+          rememberMe,
         },
       });
     }
@@ -82,7 +84,7 @@ class LoginPage extends Component {
               !submitting &&
               this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
             <UserName
-              name="userName"
+              name="username"
               placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
               rules={[
                 {

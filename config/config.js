@@ -79,13 +79,16 @@ export default {
     '@antv/data-set': 'DataSet',
     bizcharts: 'BizCharts',
   },
-  // proxy: {
-  //   '/server/api/': {
-  //     target: 'https://preview.pro.ant.design/',
-  //     changeOrigin: true,
-  //     pathRewrite: { '^/server': '' },
-  //   },
-  // },
+  proxy: {
+    '/api': {
+      // target:'http://172.21.3.177:9999',
+      target: 'http://localhost:9060',
+      // target: 'http://yapi.haimaiche.net/mock/97',
+      // target: 'http://localhost:9999',
+      changeOrigin: true,
+      pathRewrite: { '^/': '' },
+    },
+  },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

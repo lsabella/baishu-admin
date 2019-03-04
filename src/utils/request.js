@@ -82,11 +82,19 @@ export default function request(url, option) {
     credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
+  const token = sessionStorage.getItem('AUTH_TOKEN_KEY');
+  console.log(token,'token')
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||
-    newOptions.method === 'DELETE'
+    newOptions.method === 'DELETE' || 
+    newOptions.method === 'GET'
   ) {
+    if(token){
+      newOptions.headers = {
+        'Authorization':`Bearer ${token}`,
+      }
+    }
     if (!(newOptions.body instanceof FormData)) {
       newOptions.headers = {
         Accept: 'application/json',
@@ -101,6 +109,7 @@ export default function request(url, option) {
         ...newOptions.headers,
       };
     }
+    console.log(newOptions.headers,'newOptions.headers 88888')
   }
 
   const expirys = options.expirys && 60;
@@ -118,6 +127,8 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
+
+
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))
