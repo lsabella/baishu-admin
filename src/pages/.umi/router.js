@@ -217,9 +217,6 @@ models: () => [
           {
             "path": "/form/advanced-form",
             "name": "advancedform",
-            "authority": [
-              "admin"
-            ],
             "component": _dvaDynamic({
   app: window.g_app,
 models: () => [
@@ -380,9 +377,6 @@ models: () => [
           {
             "path": "/profile/advanced",
             "name": "advanced",
-            "authority": [
-              "admin"
-            ],
             "component": _dvaDynamic({
   app: window.g_app,
 models: () => [
@@ -495,6 +489,9 @@ models: () => [
         "name": "account",
         "icon": "user",
         "path": "/account",
+        "authority": [
+          "isAdmin"
+        ],
         "routes": [
           {
             "path": "/account/center",

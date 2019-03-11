@@ -82,7 +82,7 @@ export default {
   proxy: {
     '/api': {
       // target:'http://172.21.3.177:9999',
-      target: 'http://localhost:9060',
+      target: 'http://localhost:8080',
       // target: 'http://yapi.haimaiche.net/mock/97',
       // target: 'http://localhost:9999',
       changeOrigin: true,

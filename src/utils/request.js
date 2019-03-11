@@ -83,18 +83,23 @@ export default function request(url, option) {
   };
   const newOptions = { ...defaultOptions, ...options };
   const token = sessionStorage.getItem('AUTH_TOKEN_KEY');
-  console.log(token,'token')
+
+  if(token){
+    newOptions.headers = {
+      'Authorization':`Bearer ${token}`,
+    }
+  }
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||
     newOptions.method === 'DELETE' || 
     newOptions.method === 'GET'
   ) {
-    if(token){
-      newOptions.headers = {
-        'Authorization':`Bearer ${token}`,
-      }
-    }
+    // if(token){
+    //   newOptions.headers = {
+    //     'Authorization':`Bearer ${token}`,
+    //   }
+    // }
     if (!(newOptions.body instanceof FormData)) {
       newOptions.headers = {
         Accept: 'application/json',
@@ -128,6 +133,11 @@ export default function request(url, option) {
     }
   }
 
+  // if(token){
+  //   newOptions.headers = {
+  //     'Authorization':`Bearer ${token}`,
+  //   }
+  // }
 
   return fetch(url, newOptions)
     .then(checkStatus)

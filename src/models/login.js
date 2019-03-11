@@ -25,7 +25,6 @@ export default {
         const jwt = bearerToken;
         // if (payload.rememberMe) {
           sessionStorage.setItem('AUTH_TOKEN_KEY', jwt);
-          console.log(sessionStorage.getItem('AUTH_TOKEN_KEY'),'8888')
           // Storage.local.set(AUTH_TOKEN_KEY, jwt);
         // } else {
         //   sessionStorage.setItem(AUTH_TOKEN_KEY, jwt);
@@ -35,32 +34,39 @@ export default {
       }
 
       const account = yield call(getAccountLogin)
-      console.log(account)
-      // const bearerToken = response.value.headers.authorization;
-      // console.log(bearerToken,999)
-      // yield put({
-      //   type: 'changeLoginStatus',
-      //   payload: response,
-      // });
+      const authoritiesArr =  account.authorities || [];
+      const isAdmin = "ROLE_ADMIN";
+      let role = 'isUser';
+      if(authoritiesArr.includes(isAdmin)){
+        role = 'isAdmin'
+      }else{
+        role = 'isUser'
+      }
+      yield put({
+        type: 'changeLoginStatus',
+        payload: {
+          currentAuthority: role,
+        },
+      });
       // Login successfully
       // if (response.status === 'ok') {
-      //   reloadAuthorized();
-      //   const urlParams = new URL(window.location.href);
-      //   const params = getPageQuery();
-      //   let { redirect } = params;
-      //   if (redirect) {
-      //     const redirectUrlParams = new URL(redirect);
-      //     if (redirectUrlParams.origin === urlParams.origin) {
-      //       redirect = redirect.substr(urlParams.origin.length);
-      //       if (redirect.match(/^\/.*#/)) {
-      //         redirect = redirect.substr(redirect.indexOf('#') + 1);
-      //       }
-      //     } else {
-      //       window.location.href = redirect;
-      //       return;
-      //     }
-      //   }
-      //   yield put(routerRedux.replace(redirect || '/'));
+        reloadAuthorized();
+        const urlParams = new URL(window.location.href);
+        const params = getPageQuery();
+        let { redirect } = params;
+        if (redirect) {
+          const redirectUrlParams = new URL(redirect);
+          if (redirectUrlParams.origin === urlParams.origin) {
+            redirect = redirect.substr(urlParams.origin.length);
+            if (redirect.match(/^\/.*#/)) {
+              redirect = redirect.substr(redirect.indexOf('#') + 1);
+            }
+          } else {
+            window.location.href = redirect;
+            return;
+          }
+        }
+        yield put(routerRedux.replace(redirect || '/'));
       // }
     },
 
@@ -90,7 +96,6 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      console.log(payload,'payload')
       setAuthority(payload.currentAuthority);
       return {
         ...state,
